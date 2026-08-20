@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-TICKERS: tuple[str, ...] = ("SPY", "AAPL", "MSFT")
+TICKERS: tuple[str, ...] = ("NVDA", "TSLA", "AAPL", "MSFT", "AMZN")
 
 # yfinance download settings
 YF_PERIOD = "5y"

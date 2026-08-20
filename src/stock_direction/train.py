@@ -268,7 +268,7 @@ def parse_args() -> argparse.Namespace:
         "--tickers",
         nargs="+",
         default=list(TICKERS),
-        help="Tickers to train (default: SPY AAPL MSFT)",
+        help="Tickers to train (default: NVDA TSLA AAPL MSFT AMZN)",
     )
     return parser.parse_args()
 

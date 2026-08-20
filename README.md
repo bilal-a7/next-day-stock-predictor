@@ -2,39 +2,49 @@
 
 **Bilal Abdullahi** · [github.com/bilal-a7](https://github.com/bilal-a7)
 
-First ML engineering portfolio piece. The job is to predict whether **tomorrow’s close is higher than today’s** for `SPY`, `AAPL`, and `MSFT`. It is a **binary direction classifier**, not a trading system, not a price forecast, and not a claim of edge.
+First ML engineering portfolio piece. The job is to predict whether **tomorrow’s close is higher than today’s** for five mega-cap names hiring managers actually recognize: `NVDA`, `TSLA`, `AAPL`, `MSFT`, and `AMZN`. It is a **binary direction classifier**, not a trading system, not a price forecast, and not a claim of edge.
 
-The headline result from the run that produced the artifacts in this repo: **neither model consistently beats an always-up baseline**. That is the honest outcome for daily equity direction with a short technical-indicator feature set. The engineering value is in the protocol — causal features, a sealed holdout, expanding-window walk-forward, and a live `predict` CLI that only sees data through today.
+The headline result from the run that produced the artifacts in this repo: **neither model consistently beats an always-up baseline**. Two holdout cells (TSLA XGBoost, AAPL logistic regression) clear both accuracy and AUC; the other thirteen do not. That is the honest outcome for daily equity direction with a short technical-indicator feature set. The engineering value is in the protocol — causal features, a sealed holdout, expanding-window walk-forward, and a live `predict` CLI that only sees data through today.
 
 ## Result (holdout: 2025-08-18 → 2026-08-18, 252 sessions)
 
 | Ticker | Model | Accuracy | Precision | Recall | F1 | ROC-AUC |
 |--------|--------|----------|-----------|--------|-----|---------|
-| SPY | Logistic regression | 0.500 | 0.529 | 0.790 | 0.634 | 0.511 |
-| SPY | XGBoost | 0.524 | 0.587 | 0.442 | 0.504 | 0.521 |
-| SPY | Always-up / majority | **0.548** | 0.548 | 1.000 | 0.708 | 0.500 |
+| NVDA | Logistic regression | 0.504 | 0.506 | 0.992 | 0.670 | 0.515 |
+| NVDA | XGBoost | 0.476 | 0.487 | 0.602 | 0.538 | 0.474 |
+| NVDA | Always-up / majority | **0.508** | 0.508 | 1.000 | 0.674 | 0.500 |
+| TSLA | Logistic regression | 0.484 | 0.508 | 0.252 | 0.337 | 0.493 |
+| TSLA | XGBoost | **0.563** | 0.618 | 0.420 | 0.500 | **0.553** |
+| TSLA | Always-up / majority | 0.520 | 0.520 | 1.000 | 0.684 | 0.500 |
 | AAPL | Logistic regression | **0.560** | 0.579 | 0.652 | 0.613 | **0.550** |
 | AAPL | XGBoost | 0.504 | 0.536 | 0.548 | 0.542 | 0.514 |
 | AAPL | Always-up / majority | 0.536 | 0.536 | 1.000 | 0.698 | 0.500 |
 | MSFT | Logistic regression | 0.524 | 0.515 | 0.810 | 0.630 | 0.496 |
-| MSFT | XGBoost | 0.484 | 0.486 | 0.540 | 0.511 | 0.475 |
+| MSFT | XGBoost | 0.476 | 0.479 | 0.540 | 0.507 | 0.480 |
 | MSFT | Always-up / majority | 0.500 | 0.500 | 1.000 | 0.667 | 0.500 |
+| AMZN | Logistic regression | 0.512 | 0.520 | 0.685 | 0.591 | **0.551** |
+| AMZN | XGBoost | 0.500 | 0.519 | 0.431 | 0.471 | 0.490 |
+| AMZN | Always-up / majority | 0.516 | 0.516 | 1.000 | 0.681 | 0.500 |
 
-Always-up is the right naive baseline here: equities drift up, so a constant “tomorrow is up” call already gets ~50–55% accuracy. ROC-AUC is the number I would actually use to decide if there is ranking signal; it sits on top of 0.50. AAPL logistic regression is the only holdout cell where both accuracy and AUC clear the baseline, and even that is a small, single-year effect.
+Always-up is the right naive baseline here: equities drift up, so a constant “tomorrow is up” call already gets ~50–52% accuracy on these names. ROC-AUC is the number I would actually use to decide if there is ranking signal. NVDA logistic regression is essentially always-up in disguise (holdout predicted-up rate 0.996, recall 0.992) — accuracy matches the baseline, AUC is 0.515. MSFT XGBoost is worse than chance on both accuracy and AUC.
 
 Walk-forward (5 expanding folds on the development set, mean ± std) is noisier and less flattering:
 
 | Ticker | LogReg AUC | XGBoost AUC | Always-up accuracy |
 |--------|------------|-------------|--------------------|
-| SPY | 0.485 ± 0.036 | 0.479 ± 0.056 | 0.547 ± 0.066 |
+| NVDA | 0.494 ± 0.049 | 0.516 ± 0.023 | 0.552 ± 0.035 |
+| TSLA | 0.526 ± 0.060 | 0.507 ± 0.046 | 0.510 ± 0.027 |
 | AAPL | 0.516 ± 0.052 | 0.495 ± 0.055 | 0.537 ± 0.064 |
-| MSFT | 0.468 ± 0.028 | 0.441 ± 0.055 | 0.528 ± 0.043 |
+| MSFT | 0.468 ± 0.028 | 0.438 ± 0.056 | 0.528 ± 0.043 |
+| AMZN | 0.509 ± 0.045 | 0.515 ± 0.070 | 0.519 ± 0.028 |
 
-I did **not** pick a production model off the holdout. Walk-forward mean AUC is slightly higher for logistic regression on all three names. The CLI still defaults to XGBoost because that default was declared before looking at holdout numbers; pass `--model logreg` to use the linear model. Full numbers: [`reports/metrics.json`](reports/metrics.json).
+I did **not** pick a production model off the holdout. Walk-forward mean AUC is higher for logistic regression on TSLA, AAPL, and MSFT, and higher for XGBoost on NVDA and AMZN — none of those gaps is large next to the fold-to-fold std. The CLI still defaults to XGBoost because that default was declared before looking at holdout numbers; pass `--model logreg` to use the linear model. Full numbers: [`reports/metrics.json`](reports/metrics.json).
 
 ![AAPL holdout ROC](reports/roc_AAPL.png)
 
-SPY and MSFT curves are in [`reports/roc_SPY.png`](reports/roc_SPY.png) and [`reports/roc_MSFT.png`](reports/roc_MSFT.png). They hug the diagonal.
+![TSLA holdout ROC](reports/roc_TSLA.png)
+
+NVDA, MSFT, and AMZN curves are in [`reports/`](reports/). They sit on or hug the diagonal.
 
 ## Problem
 
@@ -59,7 +69,7 @@ No frozen Kaggle CSV. If Yahoo is down, the trainer retries with exponential bac
 
 ## Features
 
-All windows are backward-looking (`rolling`, `ewm(adjust=False)`, Wilder RSI). Ratios are used instead of raw moving averages so logistic regression is not dominated by the absolute price level of AAPL vs SPY.
+All windows are backward-looking (`rolling`, `ewm(adjust=False)`, Wilder RSI). Ratios are used instead of raw moving averages so logistic regression is not dominated by the absolute price level of NVDA vs AAPL.
 
 | Feature | What it is |
 |---------|------------|
@@ -80,7 +90,7 @@ Rows with NaN after indicator warmup are dropped. Tests in `tests/test_leakage.p
 
 ## Models and why these two
 
-**Per-ticker models**, not one pooled model with a ticker ID. SPY is an index; AAPL and MSFT have their own event risk and volatility regimes. With only three names, a pooled model mostly shares noise. Per-ticker also makes the ROC and coefficient plots inspectable in a hiring conversation. The cost is no sharing of statistical strength — acceptable for v1.
+**Per-ticker models**, not one pooled model with a ticker ID. NVDA and TSLA live in a different volatility regime from AAPL/MSFT/AMZN, and each name has its own earnings and product-cycle risk. With only five names, a pooled model mostly shares noise. Per-ticker also makes the ROC and coefficient plots inspectable in a hiring conversation. The cost is no sharing of statistical strength — acceptable for v1.
 
 1. **Logistic regression** in a `StandardScaler → LogisticRegression(C=1.0)` pipeline. Linear, calibrated-enough, fast. The thing you have to beat.
 2. **XGBoost** (`max_depth=3`, `n_estimators=200`, `learning_rate=0.05`, `subsample=0.8`, `min_child_weight=5`). Shallow trees on purpose: 23 features and ~950 training rows is not a setting where a deep booster earns its capacity. `scale_pos_weight` is set from the **train fold only**.
@@ -108,15 +118,17 @@ AAPL logistic regression (standardized coefficients) is mostly a mean-reversion 
 
 ![AAPL logistic regression coefficients](reports/logreg_importance_AAPL.png)
 
-XGBoost gain on SPY is almost flat across the 23 features (~0.035–0.053). That is what “no dominant signal” looks like, and it matches the AUC.
+XGBoost gain on NVDA is almost flat across the 23 features (~0.037–0.050). That is what “no dominant signal” looks like, and it matches the 0.474 holdout AUC.
 
-![SPY XGBoost feature importance](reports/xgb_importance_SPY.png)
+![NVDA XGBoost feature importance](reports/xgb_importance_NVDA.png)
 
-The equity plot is a **diagnostic**, not a backtest. Long AAPL when XGBoost P(up) ≥ 0.5, else cash; no costs, no slippage, no sizing. On this holdout, buy-and-hold wins. That is consistent with a classifier that does not beat always-up.
+The equity plot is a **diagnostic**, not a backtest. Long when XGBoost P(up) ≥ 0.5, else cash; no costs, no slippage, no sizing. On the AAPL holdout, buy-and-hold wins. On the TSLA holdout the rule finished ahead of buy-and-hold — the same year XGBoost also beat always-up on accuracy. That is one 252-day window with no costs; it is not an edge.
 
 ![AAPL diagnostic equity](reports/naive_strategy_AAPL.png)
 
-Same plots for SPY and MSFT live under [`reports/`](reports/).
+![TSLA diagnostic equity](reports/naive_strategy_TSLA.png)
+
+Same plots for NVDA, MSFT, and AMZN live under [`reports/`](reports/).
 
 ## How to run
 
@@ -142,9 +154,11 @@ python -m pytest -q
 ```
 Ticker  As of            Close    P(up)  Call    Model
 ----------------------------------------------------------
-SPY     2026-08-19      769.06    0.708  UP      xgb
+NVDA    2026-08-19      217.56    0.424  DOWN    xgb
+TSLA    2026-08-19      351.12    0.569  UP      xgb
 AAPL    2026-08-19      316.83    0.583  UP      xgb
-MSFT    2026-08-19      484.31    0.435  DOWN    xgb
+MSFT    2026-08-19      484.31    0.452  DOWN    xgb
+AMZN    2026-08-19      265.84    0.410  DOWN    xgb
 ```
 
 Those probabilities are model outputs, not a trade ticket.
@@ -167,22 +181,22 @@ data/raw/        gitignored cache
 
 ## Limitations
 
-- **No economic edge shown.** Always-up wins accuracy on SPY. MSFT XGBoost is worse than chance on both CV and holdout.
-- 252-day holdout is one regime. 2025–2026 is not “the market.”
-- Technicals on adjusted daily bars ignore overnight news, earnings, and macro prints — the things that actually move AAPL and MSFT on many days.
-- Logistic regression on collinear ratios (SMA/EMA/MACD family) has unstable coefficients; that is a feature of the model class, not a bug in the plot.
+- **No economic edge shown.** Always-up wins accuracy on NVDA. MSFT and NVDA XGBoost are worse than chance on holdout AUC. Two cells beating the baseline in a 15-cell table is what a noisy coin-flip looks like.
+- 252-day holdout is one regime. 2025–2026 is not “the market.” TSLA XGBoost’s 0.563 accuracy is a single-year effect; walk-forward AUC for that model is 0.507 ± 0.046.
+- Technicals on adjusted daily bars ignore overnight news, earnings, and macro prints — the things that actually move these names on many days.
+- Logistic regression on collinear ratios (SMA/EMA/MACD family) has unstable coefficients; that is a feature of the model class, not a bug in the plot. NVDA logreg collapsing to always-up is the same collinearity showing up as a near-constant “up” call.
 - No transaction costs, borrow, or execution lag. `predict` assumes you can act on the close that just printed, which you generally cannot.
-- Three tickers, US cash equities only.
+- Five tickers, US cash equities only.
 - yfinance is a scraping wrapper, not a paid data vendor. History can be revised.
 
 ## What I would do next
 
-1. Freeze a model-selection rule on walk-forward AUC **before** opening holdout (logreg would win today).
+1. Freeze a model-selection rule on walk-forward AUC **before** opening holdout.
 2. Replace the binary call with a probability and evaluate Brier / calibration — direction accuracy is a harsh, low-powered metric.
 3. Add a simple costed P&L with a decision threshold other than 0.5, still labeled as research.
-4. Try a pooled model with ticker embeddings once the universe is tens of names, not three.
+4. Try a pooled model with ticker embeddings once the universe is tens of names, not five.
 5. Regime features (realized vol percentile, index trend) instead of more oscillators.
-6. Earnings calendar as a known-at-close dummy for AAPL/MSFT.
+6. Earnings calendar as a known-at-close dummy for these mega-caps.
 7. Wider walk-forward (purged CV with an embargo) if the feature set starts using longer lookbacks.
 
 ## Tests

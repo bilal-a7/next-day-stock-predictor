@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "stock-direction"
 version = "0.1.0"
-description = "Next-day stock direction classifier for SPY, AAPL, and MSFT."
+description = "Next-day stock direction classifier for NVDA, TSLA, AAPL, MSFT, and AMZN."
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "Bilal Abdullahi" }]

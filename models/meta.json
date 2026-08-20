@@ -25,9 +25,11 @@
     "dow"
   ],
   "tickers": [
-    "SPY",
+    "NVDA",
+    "TSLA",
     "AAPL",
-    "MSFT"
+    "MSFT",
+    "AMZN"
   ],
   "holdout_days": 252,
   "random_state": 42,
