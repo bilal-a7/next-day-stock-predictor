@@ -1,0 +1,35 @@
+{
+  "feature_columns": [
+    "ret_1",
+    "ret_5",
+    "ret_10",
+    "ret_21",
+    "sma_5_ratio",
+    "sma_10_ratio",
+    "sma_20_ratio",
+    "sma_50_ratio",
+    "ema_12_ratio",
+    "ema_26_ratio",
+    "rsi_14",
+    "macd",
+    "macd_signal",
+    "macd_hist",
+    "vol_20",
+    "volume_ratio_20",
+    "volume_z_20",
+    "hl_range",
+    "atr_14_ratio",
+    "bb_pct_20",
+    "dist_high_20",
+    "dist_low_20",
+    "dow"
+  ],
+  "tickers": [
+    "SPY",
+    "AAPL",
+    "MSFT"
+  ],
+  "holdout_days": 252,
+  "random_state": 42,
+  "production_model": "xgb"
+}

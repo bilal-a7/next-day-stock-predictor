@@ -1,0 +1,352 @@
+{
+  "generated_at_utc": "2026-08-20T07:41:55+00:00",
+  "protocol": {
+    "holdout_days": 252,
+    "n_splits": 5,
+    "split": "sklearn TimeSeriesSplit expanding window on development set",
+    "target": "1 if close[t+1] > close[t] else 0",
+    "random_state": 42,
+    "features": [
+      "ret_1",
+      "ret_5",
+      "ret_10",
+      "ret_21",
+      "sma_5_ratio",
+      "sma_10_ratio",
+      "sma_20_ratio",
+      "sma_50_ratio",
+      "ema_12_ratio",
+      "ema_26_ratio",
+      "rsi_14",
+      "macd",
+      "macd_signal",
+      "macd_hist",
+      "vol_20",
+      "volume_ratio_20",
+      "volume_z_20",
+      "hl_range",
+      "atr_14_ratio",
+      "bb_pct_20",
+      "dist_high_20",
+      "dist_low_20",
+      "dow"
+    ]
+  },
+  "tickers": [
+    {
+      "ticker": "SPY",
+      "n_total": 1204,
+      "n_dev": 952,
+      "n_holdout": 252,
+      "date_start": "2021-10-29",
+      "date_end": "2026-08-18",
+      "dev_end": "2025-08-15",
+      "holdout_start": "2025-08-18",
+      "up_rate_dev": 0.5367647058823529,
+      "up_rate_holdout": 0.5476190476190477,
+      "walk_forward": {
+        "logreg": {
+          "accuracy_mean": 0.5227848101265822,
+          "accuracy_std": 0.02127561558730584,
+          "precision_mean": 0.5496902533751666,
+          "precision_std": 0.05896398983487809,
+          "recall_mean": 0.6091586850816385,
+          "recall_std": 0.10883869866578566,
+          "f1_mean": 0.576598335359621,
+          "f1_std": 0.08003520924258022,
+          "roc_auc_mean": 0.4849815297334679,
+          "roc_auc_std": 0.03574500603084678
+        },
+        "xgb": {
+          "accuracy_mean": 0.5025316455696203,
+          "accuracy_std": 0.04116357605445343,
+          "precision_mean": 0.5463593146731217,
+          "precision_std": 0.1039213000005049,
+          "recall_mean": 0.4971269821671106,
+          "recall_std": 0.061331037235851205,
+          "f1_mean": 0.5196190936849184,
+          "f1_std": 0.08041052008245703,
+          "roc_auc_mean": 0.4789853259098959,
+          "roc_auc_std": 0.05564543961550037
+        },
+        "majority": {
+          "accuracy_mean": 0.5265822784810126,
+          "accuracy_std": 0.07897456079652691,
+          "precision_mean": 0.23670886075949368,
+          "precision_std": 0.32475200995509884,
+          "recall_mean": 0.4,
+          "recall_std": 0.5477225575051662,
+          "f1_mean": 0.2972545546558704,
+          "f1_std": 0.40734306869001385,
+          "roc_auc_mean": 0.5,
+          "roc_auc_std": 0.0
+        },
+        "always_up": {
+          "accuracy_mean": 0.5468354430379747,
+          "accuracy_std": 0.06616875968954494,
+          "precision_mean": 0.5468354430379747,
+          "precision_std": 0.06616875968954494,
+          "recall_mean": 1.0,
+          "recall_std": 0.0,
+          "f1_mean": 0.705089286362165,
+          "f1_std": 0.056971869570755104,
+          "roc_auc_mean": 0.5,
+          "roc_auc_std": 0.0
+        }
+      },
+      "holdout": {
+        "logreg": {
+          "accuracy": 0.5,
+          "precision": 0.529126213592233,
+          "recall": 0.7898550724637681,
+          "f1": 0.6337209302325582,
+          "roc_auc": 0.5111873887617594,
+          "n": 252,
+          "pos_rate": 0.5476190476190477,
+          "pred_pos_rate": 0.8174603174603174
+        },
+        "xgb": {
+          "accuracy": 0.5238095238095238,
+          "precision": 0.5865384615384616,
+          "recall": 0.4420289855072464,
+          "f1": 0.5041322314049587,
+          "roc_auc": 0.5213577421815409,
+          "n": 252,
+          "pos_rate": 0.5476190476190477,
+          "pred_pos_rate": 0.4126984126984127
+        },
+        "majority": {
+          "accuracy": 0.5476190476190477,
+          "precision": 0.5476190476190477,
+          "recall": 1.0,
+          "f1": 0.7076923076923077,
+          "roc_auc": 0.5,
+          "n": 252,
+          "pos_rate": 0.5476190476190477,
+          "pred_pos_rate": 1.0,
+          "majority_class": 1
+        },
+        "always_up": {
+          "accuracy": 0.5476190476190477,
+          "precision": 0.5476190476190477,
+          "recall": 1.0,
+          "f1": 0.7076923076923077,
+          "roc_auc": 0.5,
+          "n": 252,
+          "pos_rate": 0.5476190476190477,
+          "pred_pos_rate": 1.0
+        }
+      }
+    },
+    {
+      "ticker": "AAPL",
+      "n_total": 1204,
+      "n_dev": 952,
+      "n_holdout": 252,
+      "date_start": "2021-10-29",
+      "date_end": "2026-08-18",
+      "dev_end": "2025-08-15",
+      "holdout_start": "2025-08-18",
+      "up_rate_dev": 0.5304621848739496,
+      "up_rate_holdout": 0.5357142857142857,
+      "walk_forward": {
+        "logreg": {
+          "accuracy_mean": 0.5113924050632911,
+          "accuracy_std": 0.03145512313870677,
+          "precision_mean": 0.548573035513418,
+          "precision_std": 0.0597284821208933,
+          "recall_mean": 0.6547669977081743,
+          "recall_std": 0.160109505774115,
+          "f1_mean": 0.5810237158854277,
+          "f1_std": 0.0582762100950456,
+          "roc_auc_mean": 0.5160121369189996,
+          "roc_auc_std": 0.05204510028206107
+        },
+        "xgb": {
+          "accuracy_mean": 0.49873417721518987,
+          "accuracy_std": 0.05614748130687817,
+          "precision_mean": 0.54385914119612,
+          "precision_std": 0.056978799232674536,
+          "recall_mean": 0.5390412528647823,
+          "recall_std": 0.12282778010995431,
+          "f1_mean": 0.5290525305177812,
+          "f1_std": 0.05915901348143817,
+          "roc_auc_mean": 0.4946340529751086,
+          "roc_auc_std": 0.054686655225830674
+        },
+        "majority": {
+          "accuracy_mean": 0.5367088607594936,
+          "accuracy_std": 0.06351227192051696,
+          "precision_mean": 0.5367088607594936,
+          "precision_std": 0.06351227192051696,
+          "recall_mean": 1.0,
+          "recall_std": 0.0,
+          "f1_mean": 0.6968121652087721,
+          "f1_std": 0.051583734448203133,
+          "roc_auc_mean": 0.5,
+          "roc_auc_std": 0.0
+        },
+        "always_up": {
+          "accuracy_mean": 0.5367088607594936,
+          "accuracy_std": 0.06351227192051696,
+          "precision_mean": 0.5367088607594936,
+          "precision_std": 0.06351227192051696,
+          "recall_mean": 1.0,
+          "recall_std": 0.0,
+          "f1_mean": 0.6968121652087721,
+          "f1_std": 0.051583734448203133,
+          "roc_auc_mean": 0.5,
+          "roc_auc_std": 0.0
+        }
+      },
+      "holdout": {
+        "logreg": {
+          "accuracy": 0.5595238095238095,
+          "precision": 0.5789473684210527,
+          "recall": 0.6518518518518519,
+          "f1": 0.6132404181184669,
+          "roc_auc": 0.5499841722063944,
+          "n": 252,
+          "pos_rate": 0.5357142857142857,
+          "pred_pos_rate": 0.6031746031746031
+        },
+        "xgb": {
+          "accuracy": 0.503968253968254,
+          "precision": 0.5362318840579711,
+          "recall": 0.5481481481481482,
+          "f1": 0.5421245421245421,
+          "roc_auc": 0.5136435580880025,
+          "n": 252,
+          "pos_rate": 0.5357142857142857,
+          "pred_pos_rate": 0.5476190476190477
+        },
+        "majority": {
+          "accuracy": 0.5357142857142857,
+          "precision": 0.5357142857142857,
+          "recall": 1.0,
+          "f1": 0.6976744186046512,
+          "roc_auc": 0.5,
+          "n": 252,
+          "pos_rate": 0.5357142857142857,
+          "pred_pos_rate": 1.0,
+          "majority_class": 1
+        },
+        "always_up": {
+          "accuracy": 0.5357142857142857,
+          "precision": 0.5357142857142857,
+          "recall": 1.0,
+          "f1": 0.6976744186046512,
+          "roc_auc": 0.5,
+          "n": 252,
+          "pos_rate": 0.5357142857142857,
+          "pred_pos_rate": 1.0
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "n_total": 1204,
+      "n_dev": 952,
+      "n_holdout": 252,
+      "date_start": "2021-10-29",
+      "date_end": "2026-08-18",
+      "dev_end": "2025-08-15",
+      "holdout_start": "2025-08-18",
+      "up_rate_dev": 0.5210084033613446,
+      "up_rate_holdout": 0.5,
+      "walk_forward": {
+        "logreg": {
+          "accuracy_mean": 0.48734177215189867,
+          "accuracy_std": 0.04693796510820039,
+          "precision_mean": 0.5039288823148264,
+          "precision_std": 0.08966014904658197,
+          "recall_mean": 0.49353750095691246,
+          "recall_std": 0.19040227638690202,
+          "f1_mean": 0.48907291487354076,
+          "f1_std": 0.1299749786812601,
+          "roc_auc_mean": 0.46823368398350296,
+          "roc_auc_std": 0.02812210553318401
+        },
+        "xgb": {
+          "accuracy_mean": 0.46835443037974683,
+          "accuracy_std": 0.028304657943035317,
+          "precision_mean": 0.49502820483031923,
+          "precision_std": 0.05442325187833296,
+          "recall_mean": 0.5097717200664651,
+          "recall_std": 0.05873431408929331,
+          "f1_mean": 0.5013575061639748,
+          "f1_std": 0.05210548844858323,
+          "roc_auc_mean": 0.4407140284199146,
+          "roc_auc_std": 0.05477593450601096
+        },
+        "majority": {
+          "accuracy_mean": 0.5151898734177214,
+          "accuracy_std": 0.05035525134409136,
+          "precision_mean": 0.22151898734177217,
+          "precision_std": 0.3035336407159949,
+          "recall_mean": 0.4,
+          "recall_std": 0.5477225575051662,
+          "f1_mean": 0.2850789857958317,
+          "f1_std": 0.3904705181427431,
+          "roc_auc_mean": 0.5,
+          "roc_auc_std": 0.0
+        },
+        "always_up": {
+          "accuracy_mean": 0.5278481012658227,
+          "accuracy_std": 0.04306588819292153,
+          "precision_mean": 0.5278481012658227,
+          "precision_std": 0.04306588819292153,
+          "recall_mean": 1.0,
+          "recall_std": 0.0,
+          "f1_mean": 0.6901280806815873,
+          "f1_std": 0.037312419090257606,
+          "roc_auc_mean": 0.5,
+          "roc_auc_std": 0.0
+        }
+      },
+      "holdout": {
+        "logreg": {
+          "accuracy": 0.5238095238095238,
+          "precision": 0.5151515151515151,
+          "recall": 0.8095238095238095,
+          "f1": 0.6296296296296297,
+          "roc_auc": 0.49571680524061473,
+          "n": 252,
+          "pos_rate": 0.5,
+          "pred_pos_rate": 0.7857142857142857
+        },
+        "xgb": {
+          "accuracy": 0.48412698412698413,
+          "precision": 0.4857142857142857,
+          "recall": 0.5396825396825397,
+          "f1": 0.5112781954887218,
+          "roc_auc": 0.47480473670949863,
+          "n": 252,
+          "pos_rate": 0.5,
+          "pred_pos_rate": 0.5555555555555556
+        },
+        "majority": {
+          "accuracy": 0.5,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666,
+          "roc_auc": 0.5,
+          "n": 252,
+          "pos_rate": 0.5,
+          "pred_pos_rate": 1.0,
+          "majority_class": 1
+        },
+        "always_up": {
+          "accuracy": 0.5,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666,
+          "roc_auc": 0.5,
+          "n": 252,
+          "pos_rate": 0.5,
+          "pred_pos_rate": 1.0
+        }
+      }
+    }
+  ]
+}
